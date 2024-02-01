@@ -1,13 +1,18 @@
+import { useContext, useState } from "react";
+import CartDetailsModal from "../../../cine/CartDetailsModal";
+import { MovieContext, ThemeContext } from "../../../context";
+import moon from "/assets/icons/moon.svg";
+import Sun from "/assets/icons/sun.svg";
 import Logo from "/assets/logo.svg";
 import ring from "/assets/ring.svg";
-import moon from "/assets/icons/moon.svg";
 import cart from "/assets/shopping-cart.svg";
-import CartDetailsModal from "../../../cine/CartDetailsModal";
-import { useContext, useState } from "react";
-import { MovieContext } from "../../../context";
+
 const Header = () => {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
   const [showCartModal, setShowCartModal] = useState(false);
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
+
+  //handlers
   const handleShowCart = () => {
     setShowCartModal(true);
   };
@@ -38,8 +43,14 @@ const Header = () => {
               <a
                 className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
                 href="#"
+                onClick={() => setDarkMode(!darkMode)}
               >
-                <img src={moon} width="24" height="24" alt="moon" />
+                <img
+                  src={darkMode ? Sun : moon}
+                  width="24"
+                  height="24"
+                  alt="moon"
+                />
               </a>
             </li>
             <li>
@@ -49,9 +60,9 @@ const Header = () => {
                 onClick={handleShowCart}
               >
                 <img src={cart} width="24" height="24" alt="cart" />
-                {cartData.length > 0 && (
+                {state.cartData?.length > 0 && (
                   <span className="rounded-full absolute top-[-12px] left-[28px] bg-[#12CF6F] text-white text-center p-[2px] w-[30px] h-[30px]">
-                    {cartData.length}
+                    {state.cartData.length}
                   </span>
                 )}
               </a>

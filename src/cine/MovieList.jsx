@@ -1,4 +1,4 @@
-import { getAllMovies } from "../data/movies.js";
+import {getAllMovies} from '../data/movies.js';
 import MovieCard from "./MovieCard.jsx";
 const MovieList = () => {
   const movies = getAllMovies();

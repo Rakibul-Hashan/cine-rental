@@ -4,13 +4,15 @@ import { getImgURL } from "../utils/cineUtility";
 import Delete from "/assets/delete.svg";
 import Checkout from "/assets/icons/checkout.svg";
 const CartDetailsModal = ({ onCloseCartModal }) => {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
   const handleItemDelete = (event, theItem) => {
     event.stopPropagation();
-    const newCart = cartData.filter((i) => i.id !== theItem.id);
-    setCartData([...newCart]);
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: theItem,
+    });
   };
-  console.log(`Cart Data from Carrrrrrrrrrrrrrt: `, cartData);
+
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[790px] p-4 max-h-[90vh] overflow-auto">
@@ -19,10 +21,10 @@ const CartDetailsModal = ({ onCloseCartModal }) => {
             Your Carts
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
-            {cartData.length === 0 && (
+            {state.cartData.length === 0 && (
               <p className="text-xl">The Cart is empty😿</p>
             )}
-            {cartData.map((item) => (
+            {state.cartData.map((item) => (
               <Fragment key={item.id}>
                 <div className="grid grid-cols-[1fr_auto] gap-4">
                   <div className="flex items-center gap-4">

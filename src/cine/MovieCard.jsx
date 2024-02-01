@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
+import { MovieContext } from "../context";
 import { getImgURL } from "../utils/cineUtility";
 import MovieModal from "./MovieModal";
 import Rating from "./Rating";
-import { MovieContext } from "../context";
 
 const MovieCard = ({ movie }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
 
   // handlers
   const handleCloseModal = () => {
@@ -21,9 +21,15 @@ const MovieCard = ({ movie }) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const found = cartData.find((item) => item.id === movie.id);
+
+    const found = state.cartData.find((item) => item.id === movie.id);
     if (!found) {
-      setCartData([...cartData, movie]);
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: {
+          ...movie,
+        },
+      });
     } else {
       return alert(`The movie ${movie.title} has already been added to cart`);
     }
