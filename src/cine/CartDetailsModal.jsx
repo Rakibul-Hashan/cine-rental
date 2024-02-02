@@ -3,6 +3,7 @@ import { MovieContext } from "../context";
 import { getImgURL } from "../utils/cineUtility";
 import Delete from "/assets/delete.svg";
 import Checkout from "/assets/icons/checkout.svg";
+import { toast } from "react-toastify";
 const CartDetailsModal = ({ onCloseCartModal }) => {
   const { state, dispatch } = useContext(MovieContext);
   const handleItemDelete = (event, theItem) => {
@@ -11,6 +12,7 @@ const CartDetailsModal = ({ onCloseCartModal }) => {
       type: "REMOVE_FROM_CART",
       payload: theItem,
     });
+    toast.warn(`${theItem.title} is removed from the cart!`);
   };
 
   return (

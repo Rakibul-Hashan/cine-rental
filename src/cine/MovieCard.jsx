@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-import { MovieContext } from "../context";
+import { toast } from "react-toastify";
+import { MovieContext, ThemeContext } from "../context";
 import { getImgURL } from "../utils/cineUtility";
 import MovieModal from "./MovieModal";
 import Rating from "./Rating";
@@ -8,8 +9,10 @@ const MovieCard = ({ movie }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const { state, dispatch } = useContext(MovieContext);
-
+  const { darkMode } = useContext(ThemeContext);
+  console.log(darkMode ? "dark" : "light");
   // handlers
+
   const handleCloseModal = () => {
     setSelectedMovie(null);
     setShowModal(false);
@@ -30,8 +33,19 @@ const MovieCard = ({ movie }) => {
           ...movie,
         },
       });
+      toast.success(`${movie.title} is added to cart!`);
     } else {
-      return alert(`The movie ${movie.title} has already been added to cart`);
+      return toast.error(`${movie.title} is already in your cart`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: darkMode ? "dark" : "light",
+        transition: Bounce,
+      });
     }
   };
 
